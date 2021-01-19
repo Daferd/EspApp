@@ -1,4 +1,4 @@
-package com.daferarevalo.espapp.ui
+package com.daferarevalo.espapp.ui.register
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.daferarevalo.espapp.databinding.ActivityRegisterBinding
 import com.daferarevalo.espapp.server.UsuarioServer
+import com.daferarevalo.espapp.ui.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 

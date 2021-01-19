@@ -1,10 +1,12 @@
-package com.daferarevalo.espapp.ui
+package com.daferarevalo.espapp.ui.login
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.daferarevalo.espapp.databinding.ActivityLoginBinding
+import com.daferarevalo.espapp.ui.MainActivity
+import com.daferarevalo.espapp.ui.register.RegisterActivity
 import com.google.firebase.auth.FirebaseAuth
 
 class LoginActivity : AppCompatActivity() {
