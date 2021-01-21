@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import com.daferarevalo.espapp.R
 import com.daferarevalo.espapp.databinding.FragmentHomeBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -38,6 +39,12 @@ class HomeFragment : Fragment() {
         binding.lucesButton.setOnClickListener {
             encenderApagarLuces(estadoLuces)
             activarT1Firebase()
+        }
+
+        val navController = Navigation.findNavController(view)
+
+        binding.temperatureCardView.setOnClickListener {
+            navController.navigate(R.id.temperatureFragment)
         }
     }
 

@@ -9,7 +9,11 @@
         android:id="@+id/navigation_home"
         android:name="com.daferarevalo.espapp.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_navigation_home_to_temperatureFragment2"
+            app:destination="@id/temperatureFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_settings"
@@ -22,4 +26,10 @@
         android:name="com.daferarevalo.espapp.ui.profile.ProfileFragment"
         android:label="@string/profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/temperatureFragment"
+        android:name="com.daferarevalo.espapp.ui.TemperatureFragment"
+        android:label="fragment_temperature"
+        tools:layout="@layout/fragment_temperature" />
+
 </navigation>
