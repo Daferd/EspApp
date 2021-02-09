@@ -19,12 +19,15 @@ import com.google.firebase.database.ValueEventListener
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
-    private var estadoLuces = false
+    private var estadoRele1 = false
+    private var estadoRele2 = false
+    private var estadoRele3 = false
+    private var estadoRele4 = false
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
@@ -35,36 +38,219 @@ class HomeFragment : Fragment() {
         binding = FragmentHomeBinding.bind(view)
 
         showHumidity()
-        verificarEstadoLuces()
-        binding.lucesButton.setOnClickListener {
-            encenderApagarLuces(estadoLuces)
-            activarT1Firebase()
+        verificarEstadoRele1()
+        verificarEstadoRele2()
+        verificarEstadoRele3()
+        verificarEstadoRiego()
+
+        binding.rele1Button.setOnClickListener {
+            encenderApagarRele1(estadoRele1)
+            desactivarT1Firebase()
+        }
+
+        binding.rele2Button.setOnClickListener {
+            encenderApagarRele2(estadoRele2)
+            desactivarT2Firebase()
+        }
+
+        binding.rele3Button.setOnClickListener {
+            encenderApagarRele3(estadoRele3)
+            desactivarT3Firebase()
+        }
+
+        binding.riegoButton.setOnClickListener {
+            encenderApagarRele4(estadoRele4)
+            desactivarT4Firebase()
         }
 
         val navController = Navigation.findNavController(view)
-
         binding.temperatureCardView.setOnClickListener {
             navController.navigate(R.id.temperatureFragment)
         }
     }
 
-    private fun encenderApagarLuces(estadoLuces: Boolean) {
+    private fun verificarEstadoRiego() {
+        val user = FirebaseAuth.getInstance().currentUser
+        user?.let {
+            val uidUser = user.uid
+            val database = FirebaseDatabase.getInstance()
+            val myDispRef = database.getReference("usuarios")
+                .child(uidUser).child("rele4").child("estado")
+
+            val postListener = object : ValueEventListener {
+                @SuppressLint("ResourceAsColor")
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    estadoRele4 = snapshot.value as Boolean
+                    if (estadoRele4) {
+                        binding.riegoButton.setBackgroundColor(Color.GREEN)
+                    } else {
+                        binding.riegoButton.setBackgroundColor(Color.RED)
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+
+                }
+
+            }
+            myDispRef.addValueEventListener(postListener)
+        }
+    }
+
+    private fun encenderApagarRele4(estadoRele4: Boolean) {
+        val user = FirebaseAuth.getInstance().currentUser
+        user?.let {
+            val uidUser = user.uid
+            val database = FirebaseDatabase.getInstance()
+            val myDispRef = database.getReference("usuarios").child(uidUser).child("rele4")
+
+            val estadoRele4Aux = estadoRele4.not()
+
+            val childUpdates = HashMap<String, Any>()
+            childUpdates["estado"] = estadoRele4Aux
+            myDispRef.updateChildren(childUpdates)
+
+        }
+    }
+
+    private fun desactivarT4Firebase() {
+        val user = FirebaseAuth.getInstance().currentUser
+        user?.let {
+            val uidUser = user.uid
+            val database = FirebaseDatabase.getInstance()
+            val myDispRef = database.getReference("usuarios").child(uidUser).child("rele4")
+
+            myDispRef.child("activar").setValue(false)
+        }
+    }
+
+    private fun verificarEstadoRele3() {
+        val user = FirebaseAuth.getInstance().currentUser
+        user?.let {
+            val uidUser = user.uid
+            val database = FirebaseDatabase.getInstance()
+            val myDispRef = database.getReference("usuarios")
+                .child(uidUser).child("rele3").child("estado")
+
+            val postListener = object : ValueEventListener {
+                @SuppressLint("ResourceAsColor")
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    estadoRele3 = snapshot.value as Boolean
+                    if (estadoRele3) {
+                        binding.rele3Button.setBackgroundColor(Color.GREEN)
+                    } else {
+                        binding.rele3Button.setBackgroundColor(Color.RED)
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+
+                }
+
+            }
+            myDispRef.addValueEventListener(postListener)
+        }
+    }
+
+    private fun encenderApagarRele3(estadoRele3: Boolean) {
+        val user = FirebaseAuth.getInstance().currentUser
+        user?.let {
+            val uidUser = user.uid
+            val database = FirebaseDatabase.getInstance()
+            val myDispRef = database.getReference("usuarios").child(uidUser).child("rele3")
+
+            val estadoRele3Aux = estadoRele3.not()
+
+            val childUpdates = HashMap<String, Any>()
+            childUpdates["estado"] = estadoRele3Aux
+            myDispRef.updateChildren(childUpdates)
+
+        }
+    }
+
+    private fun desactivarT3Firebase() {
+        val user = FirebaseAuth.getInstance().currentUser
+        user?.let {
+            val uidUser = user.uid
+            val database = FirebaseDatabase.getInstance()
+            val myDispRef = database.getReference("usuarios").child(uidUser).child("rele3")
+
+            myDispRef.child("activar").setValue(false)
+        }
+    }
+
+    private fun verificarEstadoRele2() {
+        val user = FirebaseAuth.getInstance().currentUser
+        user?.let {
+            val uidUser = user.uid
+            val database = FirebaseDatabase.getInstance()
+            val myDispRef = database.getReference("usuarios")
+                .child(uidUser).child("rele2").child("estado")
+
+            val postListener = object : ValueEventListener {
+                @SuppressLint("ResourceAsColor")
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    estadoRele2 = snapshot.value as Boolean
+                    if (estadoRele2) {
+                        binding.rele2Button.setBackgroundColor(Color.GREEN)
+                    } else {
+                        binding.rele2Button.setBackgroundColor(Color.RED)
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+
+                }
+
+            }
+            myDispRef.addValueEventListener(postListener)
+        }
+    }
+
+    private fun encenderApagarRele2(estadoRele2: Boolean) {
+        val user = FirebaseAuth.getInstance().currentUser
+        user?.let {
+            val uidUser = user.uid
+            val database = FirebaseDatabase.getInstance()
+            val myDispRef = database.getReference("usuarios").child(uidUser).child("rele2")
+
+            val estadoRele2Aux = estadoRele2.not()
+
+            val childUpdates = HashMap<String, Any>()
+            childUpdates["estado"] = estadoRele2Aux
+            myDispRef.updateChildren(childUpdates)
+
+        }
+    }
+
+    private fun desactivarT2Firebase() {
+        val user = FirebaseAuth.getInstance().currentUser
+        user?.let {
+            val uidUser = user.uid
+            val database = FirebaseDatabase.getInstance()
+            val myDispRef = database.getReference("usuarios").child(uidUser).child("rele2")
+
+            myDispRef.child("activar").setValue(false)
+        }
+    }
+
+    private fun encenderApagarRele1(estadoRele1: Boolean) {
         val user = FirebaseAuth.getInstance().currentUser
         user?.let {
             val uidUser = user.uid
             val database = FirebaseDatabase.getInstance()
             val myDispRef = database.getReference("usuarios").child(uidUser).child("rele1")
 
-            val estadoLucesAux = estadoLuces.not()
+            val estadoRele1Aux = estadoRele1.not()
 
             val childUpdates = HashMap<String, Any>()
-            childUpdates["estado"] = estadoLucesAux
+            childUpdates["estado"] = estadoRele1Aux
             myDispRef.updateChildren(childUpdates)
 
         }
     }
 
-    private fun activarT1Firebase() {
+    private fun desactivarT1Firebase() {
         val user = FirebaseAuth.getInstance().currentUser
         user?.let {
             val uidUser = user.uid
@@ -77,22 +263,22 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun verificarEstadoLuces() {
+    private fun verificarEstadoRele1() {
         val user = FirebaseAuth.getInstance().currentUser
         user?.let {
             val uidUser = user.uid
             val database = FirebaseDatabase.getInstance()
             val myDispRef = database.getReference("usuarios")
-                    .child(uidUser).child("rele1").child("estado")
+                .child(uidUser).child("rele1").child("estado")
 
             val postListener = object : ValueEventListener {
                 @SuppressLint("ResourceAsColor")
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    estadoLuces = snapshot.value as Boolean
-                    if (estadoLuces == false) {
-                        binding.lucesButton.setBackgroundColor(Color.RED)
+                    estadoRele1 = snapshot.value as Boolean
+                    if (estadoRele1 == false) {
+                        binding.rele1Button.setBackgroundColor(Color.RED)
                     } else {
-                        binding.lucesButton.setBackgroundColor(Color.GREEN)
+                        binding.rele1Button.setBackgroundColor(Color.GREEN)
                     }
                 }
 

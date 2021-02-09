@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.daferarevalo.espapp.R
 import com.daferarevalo.espapp.databinding.FragmentSettingsBinding
+import com.daferarevalo.espapp.server.RiegoServer
 import com.daferarevalo.espapp.server.Temporizador1Server
 import com.daferarevalo.espapp.server.Temporizador2Server
 import com.daferarevalo.espapp.server.Temporizador3Server
@@ -37,6 +38,7 @@ class SettingsFragment : Fragment() {
         verificarEstadoTemporizador1()
         verificarEstadoTemporizador2()
         verificarEstadoTemporizador3()
+        verificarEstadoRiego()
 
         binding.encendidoT1EditText.setOnClickListener {
             showTimePickerDialogOnT1()
@@ -92,6 +94,126 @@ class SettingsFragment : Fragment() {
             }
         }
 
+        binding.encendidoRiegoEditText.setOnClickListener {
+            showTimePickerDialogOnRiego()
+        }
+        binding.repeticionesRiegoEditText.setOnClickListener {
+            val repeticiones = binding.repeticionesRiegoEditText.text.toString()
+            repeticionesRiegoFirebase(repeticiones)
+        }
+
+        binding.tiempoRiegoEditText.setOnClickListener {
+            val tiempo = binding.tiempoRiegoEditText.text.toString()
+            tiempoRiegoFirebase(tiempo)
+        }
+
+        binding.riegoSwitch.setOnClickListener {
+            if (binding.riegoSwitch.isChecked) {
+                val activar = true
+                activarRiegoFirebase(activar)
+            } else {
+                val activar = false
+                activarRiegoFirebase(activar)
+            }
+        }
+
+    }
+
+    private fun verificarEstadoRiego() {
+        val user = FirebaseAuth.getInstance().currentUser
+        user?.let {
+            val uidUser = user.uid
+            val database = FirebaseDatabase.getInstance()
+
+            val myDispRef = database.getReference("usuarios").child(uidUser).child("rele4")
+
+            val postListener = object : ValueEventListener2 {
+                @SuppressLint("SetTextI18n")
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    // Get Post object and use the values to update the UI
+                    val riego = dataSnapshot.getValue(RiegoServer::class.java)
+                    binding.riegoSwitch.isChecked = riego?.activar == true
+                    binding.encendidoRiegoEditText.setText(riego?.h_on_rele4?.toString() + ":" + riego?.m_on_rele4?.toString())
+                    binding.repeticionesRiegoEditText.setText(riego?.repeticiones.toString())
+                    binding.tiempoRiegoEditText.setText(riego?.tiempo.toString())
+                    // ...
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {
+
+                }
+            }
+            myDispRef.addValueEventListener(postListener)
+
+        }
+
+    }
+
+    private fun activarRiegoFirebase(activar: Boolean) {
+        val user = FirebaseAuth.getInstance().currentUser
+        user?.let {
+            val uidUser = user.uid
+            val database = FirebaseDatabase.getInstance()
+            val myDispRef = database.getReference("usuarios").child(uidUser).child("rele4")
+
+            if (activar) {
+                myDispRef.child("activar").setValue(true)
+            } else {
+                myDispRef.child("activar").setValue(false)
+            }
+        }
+    }
+
+    private fun tiempoRiegoFirebase(tiempo: String) {
+        val user = FirebaseAuth.getInstance().currentUser
+        user?.let {
+            val uidUser = user.uid
+            val database = FirebaseDatabase.getInstance()
+            val myDispRef = database.getReference("usuarios").child(uidUser).child("rele4")
+
+            val childUpdates = HashMap<String, Any>()
+            childUpdates["tiempo"] = tiempo.toInt()
+            myDispRef.updateChildren(childUpdates)
+        }
+    }
+
+    private fun repeticionesRiegoFirebase(repeticiones: String) {
+        val user = FirebaseAuth.getInstance().currentUser
+        user?.let {
+            val uidUser = user.uid
+            val database = FirebaseDatabase.getInstance()
+            val myDispRef = database.getReference("usuarios").child(uidUser).child("rele4")
+
+            val childUpdates = HashMap<String, Any>()
+            childUpdates["repeticiones"] = repeticiones.toInt()
+            myDispRef.updateChildren(childUpdates)
+        }
+    }
+
+    private fun showTimePickerDialogOnRiego() {
+        val timePicker = TimePickerFragment { hour, minute -> onTimeSelectedOnRiego(hour, minute) }
+        fragmentManager?.let { timePicker.show(it, "time") }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun onTimeSelectedOnRiego(hour: Int, minute: Int) {
+        binding.encendidoRiegoEditText.setText("$hour:$minute")
+        horaOnRiegoFirebase(hour, minute)
+    }
+
+    private fun horaOnRiegoFirebase(hour: Int, minute: Int) {
+        val user = FirebaseAuth.getInstance().currentUser
+        user?.let {
+            val uidUser = user.uid
+            val database = FirebaseDatabase.getInstance()
+            val myDispRef = database.getReference("usuarios").child(uidUser).child("rele4")
+
+            val childUpdates = HashMap<String, Any>()
+            childUpdates["h_on_rele4"] = hour
+            childUpdates["m_on_rele4"] = minute
+
+            myDispRef.updateChildren(childUpdates)
+        }
     }
 
     private fun activarT3Firebase(activar: Boolean) {
