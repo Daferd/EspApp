@@ -1,4 +1,4 @@
-package com.daferarevalo.espapp.ui
+    package com.daferarevalo.espapp.ui
 
 import android.graphics.Color
 import android.os.Bundle
@@ -8,23 +8,32 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.daferarevalo.espapp.R
 import com.daferarevalo.espapp.databinding.FragmentTemperatureBinding
+import com.daferarevalo.espapp.server.Datos
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
-class TemperatureFragment : Fragment() {
+    class TemperatureFragment : Fragment() {
 
-    private lateinit var binding: FragmentTemperatureBinding
+        private lateinit var binding: FragmentTemperatureBinding
 
-    companion object {
-        private val TAG = "TemperatureFragment"
-    }
+        private var temperatureList: MutableList<Datos> = mutableListOf()
 
-    override fun onCreateView(
+
+        companion object {
+            private val TAG = "TemperatureFragment"
+        }
+
+        override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
+        ): View? {
+            // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_temperature, container, false)
     }
 
@@ -35,6 +44,8 @@ class TemperatureFragment : Fragment() {
 
         //binding.lineChart.onChartGestureListener
         //binding.lineChart.setOnChartValueSelectedListener(this@TemperatureFragment)
+
+        cargarDesdeFirebase()
 
         val yValues = ArrayList<Entry>()
 
@@ -60,7 +71,36 @@ class TemperatureFragment : Fragment() {
         labels.add("23-Jan")
 
         val data = LineData(lineDataSet)
+        binding.barChart.animateX(2000)
         binding.barChart.data = data
 
+        //binding.pruebaTextView.text = temperatureList.get(1).toString()
+
     }
-}
+
+        private fun cargarDesdeFirebase() {
+            val user = FirebaseAuth.getInstance().currentUser
+            user?.let {
+                val uidUser = user.uid
+                val database = FirebaseDatabase.getInstance()
+                val myDispRef = database.getReference("usuarios").child(uidUser)
+                    .child("Sensores").child("TemperaturaReg")
+
+                val postListener = object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        for (data: DataSnapshot in snapshot.children) {
+                            val temp = data.getValue(Datos::class.java)
+                            temp?.let { temperatureList.add(it) }
+                        }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        TODO("Not yet implemented")
+                    }
+
+                }
+                myDispRef.addValueEventListener(postListener)
+            }
+        }
+
+    }

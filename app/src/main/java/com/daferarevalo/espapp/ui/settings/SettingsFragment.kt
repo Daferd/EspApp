@@ -10,6 +10,7 @@ import com.daferarevalo.espapp.R
 import com.daferarevalo.espapp.databinding.FragmentSettingsBinding
 import com.daferarevalo.espapp.server.Temporizador1Server
 import com.daferarevalo.espapp.server.Temporizador2Server
+import com.daferarevalo.espapp.server.Temporizador3Server
 import com.daferarevalo.espapp.ui.timePicker.TimePickerFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -35,6 +36,7 @@ class SettingsFragment : Fragment() {
 
         verificarEstadoTemporizador1()
         verificarEstadoTemporizador2()
+        verificarEstadoTemporizador3()
 
         binding.encendidoT1EditText.setOnClickListener {
             showTimePickerDialogOnT1()
@@ -72,6 +74,120 @@ class SettingsFragment : Fragment() {
             }
         }
 
+        binding.encendidoT3EditText.setOnClickListener {
+            showTimePickerDialogOnT3()
+        }
+
+        binding.apagadoT3EditText.setOnClickListener {
+            showTimePickerDialogOffT3()
+        }
+
+        binding.t3Switch.setOnClickListener {
+            if (binding.t3Switch.isChecked) {
+                val activar = true
+                activarT3Firebase(activar)
+            } else {
+                val activar = false
+                activarT3Firebase(activar)
+            }
+        }
+
+    }
+
+    private fun activarT3Firebase(activar: Boolean) {
+        val user = FirebaseAuth.getInstance().currentUser
+        user?.let {
+            val uidUser = user.uid
+            val database = FirebaseDatabase.getInstance()
+            val myDispRef = database.getReference("usuarios").child(uidUser).child("rele3")
+
+            if (activar) {
+                myDispRef.child("activar").setValue(true)
+            } else {
+                myDispRef.child("activar").setValue(false)
+            }
+        }
+    }
+
+    private fun verificarEstadoTemporizador3() {
+        val user = FirebaseAuth.getInstance().currentUser
+        user?.let {
+            val uidUser = user.uid
+            val database = FirebaseDatabase.getInstance()
+
+            val myDispRef = database.getReference("usuarios").child(uidUser).child("rele3")
+
+            val postListener = object : ValueEventListener2 {
+                @SuppressLint("SetTextI18n")
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    // Get Post object and use the values to update the UI
+                    val temporizador3 = dataSnapshot.getValue(Temporizador3Server::class.java)
+                    binding.t3Switch.isChecked = temporizador3?.activar == true
+                    binding.encendidoT3EditText.setText(temporizador3?.h_on_rele3?.toString() + ":" + temporizador3?.m_on_rele3?.toString())
+                    binding.apagadoT3EditText.setText(temporizador3?.h_off_rele3?.toString() + ":" + temporizador3?.m_off_rele3?.toString())
+                    // ...
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {
+
+                }
+            }
+            myDispRef.addValueEventListener(postListener)
+
+        }
+
+    }
+
+    private fun showTimePickerDialogOffT3() {
+        val timePicker = TimePickerFragment { hour, minute -> onTimeSelectedOffT3(hour, minute) }
+        fragmentManager?.let { timePicker.show(it, "time") }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun onTimeSelectedOffT3(hour: Int, minute: Int) {
+        binding.apagadoT3EditText.setText("$hour:$minute")
+        horaOffT3Firebase(hour, minute)
+    }
+
+    private fun horaOffT3Firebase(hour: Int, minute: Int) {
+        val user = FirebaseAuth.getInstance().currentUser
+        user?.let {
+            val uidUser = user.uid
+            val database = FirebaseDatabase.getInstance()
+            val myDispRef = database.getReference("usuarios").child(uidUser).child("rele3")
+
+            val childUpdates = HashMap<String, Any>()
+            childUpdates["h_off_rele3"] = hour
+            childUpdates["m_off_rele3"] = minute
+
+            myDispRef.updateChildren(childUpdates)
+        }
+    }
+
+    private fun showTimePickerDialogOnT3() {
+        val timePicker = TimePickerFragment { hour, minute -> onTimeSelectedOnT3(hour, minute) }
+        fragmentManager?.let { timePicker.show(it, "time") }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun onTimeSelectedOnT3(hour: Int, minute: Int) {
+        binding.encendidoT3EditText.setText("$hour:$minute")
+        horaOnT3Firebase(hour, minute)
+    }
+
+    private fun horaOnT3Firebase(hour: Int, minute: Int) {
+        val user = FirebaseAuth.getInstance().currentUser
+        user?.let {
+            val uidUser = user.uid
+            val database = FirebaseDatabase.getInstance()
+            val myDispRef = database.getReference("usuarios").child(uidUser).child("rele3")
+
+            val childUpdates = HashMap<String, Any>()
+            childUpdates["h_on_rele3"] = hour
+            childUpdates["m_on_rele3"] = minute
+
+            myDispRef.updateChildren(childUpdates)
+        }
     }
 
     private fun verificarEstadoTemporizador1() {
