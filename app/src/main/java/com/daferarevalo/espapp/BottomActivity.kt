@@ -11,6 +11,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 class BottomActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.Theme_EspApp)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_bottom)
         val navView: BottomNavigationView = findViewById(R.id.nav_view)

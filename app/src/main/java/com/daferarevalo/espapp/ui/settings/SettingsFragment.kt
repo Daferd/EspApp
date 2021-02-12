@@ -107,6 +107,11 @@ class SettingsFragment : Fragment() {
             tiempoRiegoFirebase(tiempo)
         }
 
+        binding.tiempoEsperaTextView.setOnClickListener {
+            val tiempo = binding.tiempoEsperaTextView.text.toString()
+            tiempoEsperaFirebase(tiempo)
+        }
+
         binding.riegoSwitch.setOnClickListener {
             if (binding.riegoSwitch.isChecked) {
                 val activar = true
@@ -117,6 +122,161 @@ class SettingsFragment : Fragment() {
             }
         }
 
+        binding.sundayCheckBox.setOnClickListener {
+            val dia = 0
+            if (binding.sundayCheckBox.isChecked) {
+                val activar = true
+                diasRiegoFirebase(dia, activar)
+            } else {
+                val activar = false
+                diasRiegoFirebase(dia, activar)
+            }
+        }
+
+        binding.mondayCheckBox.setOnClickListener {
+            val dia = 1
+            if (binding.mondayCheckBox.isChecked) {
+                val activar = true
+
+                diasRiegoFirebase(dia, activar)
+            } else {
+                val activar = false
+                diasRiegoFirebase(dia, activar)
+            }
+        }
+
+        binding.tuesdayCheckBox.setOnClickListener {
+            val dia = 2
+            if (binding.tuesdayCheckBox.isChecked) {
+                val activar = true
+
+                diasRiegoFirebase(dia, activar)
+            } else {
+                val activar = false
+                diasRiegoFirebase(dia, activar)
+            }
+        }
+        binding.wednesdayCheckBox.setOnClickListener {
+            val dia = 3
+            if (binding.wednesdayCheckBox.isChecked) {
+                val activar = true
+
+                diasRiegoFirebase(dia, activar)
+            } else {
+                val activar = false
+                diasRiegoFirebase(dia, activar)
+            }
+        }
+        binding.thursdayCheckBox.setOnClickListener {
+            val dia = 4
+            if (binding.thursdayCheckBox.isChecked) {
+                val activar = true
+                diasRiegoFirebase(dia, activar)
+            } else {
+                val activar = false
+                diasRiegoFirebase(dia, activar)
+            }
+        }
+        binding.fridayCheckBox.setOnClickListener {
+            val dia = 5
+            if (binding.fridayCheckBox.isChecked) {
+                val activar = true
+
+                diasRiegoFirebase(dia, activar)
+            } else {
+                val activar = false
+                diasRiegoFirebase(dia, activar)
+            }
+        }
+        binding.saturdayCheckBox.setOnClickListener {
+            val dia = 6
+            if (binding.saturdayCheckBox.isChecked) {
+                val activar = true
+
+                diasRiegoFirebase(dia, activar)
+            } else {
+                val activar = false
+                diasRiegoFirebase(dia, activar)
+            }
+        }
+    }
+
+    private fun diasRiegoFirebase(dia: Int, activar: Boolean) {
+        val user = FirebaseAuth.getInstance().currentUser
+        user?.let {
+            val uidUser = user.uid
+            val database = FirebaseDatabase.getInstance()
+
+            when (dia) {
+                0 -> {
+                    val myDispRef = database.getReference("usuarios").child(uidUser)
+                        .child("rele4")
+                    val childUpdates = HashMap<String, Any>()
+                    childUpdates["sun"] = activar
+                    myDispRef.updateChildren(childUpdates)
+                }
+
+                1 -> {
+                    val myDispRef = database.getReference("usuarios").child(uidUser)
+                        .child("rele4")
+                    val childUpdates = HashMap<String, Any>()
+                    childUpdates["mon"] = activar
+                    myDispRef.updateChildren(childUpdates)
+                }
+
+                2 -> {
+                    val myDispRef = database.getReference("usuarios").child(uidUser)
+                        .child("rele4")
+                    val childUpdates = HashMap<String, Any>()
+                    childUpdates["tues"] = activar
+                    myDispRef.updateChildren(childUpdates)
+                }
+                3 -> {
+                    val myDispRef = database.getReference("usuarios").child(uidUser)
+                        .child("rele4")
+                    val childUpdates = HashMap<String, Any>()
+                    childUpdates["wed"] = activar
+                    myDispRef.updateChildren(childUpdates)
+                }
+                4 -> {
+                    val myDispRef = database.getReference("usuarios").child(uidUser)
+                        .child("rele4")
+                    val childUpdates = HashMap<String, Any>()
+                    childUpdates["thurs"] = activar
+                    myDispRef.updateChildren(childUpdates)
+                }
+                5 -> {
+                    val myDispRef = database.getReference("usuarios").child(uidUser)
+                        .child("rele4")
+                    val childUpdates = HashMap<String, Any>()
+                    childUpdates["fri"] = activar
+                    myDispRef.updateChildren(childUpdates)
+                }
+                else -> {
+
+                    val myDispRef = database.getReference("usuarios").child(uidUser)
+                        .child("rele4")
+                    val childUpdates = HashMap<String, Any>()
+                    childUpdates["sat"] = activar
+                    myDispRef.updateChildren(childUpdates)
+                }
+            }
+        }
+
+    }
+
+
+    private fun tiempoEsperaFirebase(tiempo: String) {
+        val user = FirebaseAuth.getInstance().currentUser
+        user?.let {
+            val uidUser = user.uid
+            val database = FirebaseDatabase.getInstance()
+            val myDispRef = database.getReference("usuarios").child(uidUser).child("rele4")
+
+            val childUpdates = HashMap<String, Any>()
+            childUpdates["tiempoEspera"] = tiempo.toInt()
+            myDispRef.updateChildren(childUpdates)
+        }
     }
 
     private fun verificarEstadoRiego() {
@@ -135,7 +295,15 @@ class SettingsFragment : Fragment() {
                     binding.riegoSwitch.isChecked = riego?.activar == true
                     binding.encendidoRiegoEditText.setText(riego?.h_on_rele4?.toString() + ":" + riego?.m_on_rele4?.toString())
                     binding.repeticionesRiegoEditText.setText(riego?.repeticiones.toString())
-                    binding.tiempoRiegoEditText.setText(riego?.tiempo.toString())
+                    binding.tiempoEsperaTextView.setText(riego?.tiempoEspera.toString())
+                    binding.tiempoRiegoEditText.setText(riego?.tiempoRiego.toString())
+                    binding.sundayCheckBox.isChecked = riego?.sun == true
+                    binding.mondayCheckBox.isChecked = riego?.mon == true
+                    binding.tuesdayCheckBox.isChecked = riego?.tues == true
+                    binding.fridayCheckBox.isChecked = riego?.fri == true
+                    binding.wednesdayCheckBox.isChecked = riego?.wed == true
+                    binding.thursdayCheckBox.isChecked = riego?.thurs == true
+                    binding.saturdayCheckBox.isChecked = riego?.sat == true
                     // ...
                 }
 
@@ -172,7 +340,7 @@ class SettingsFragment : Fragment() {
             val myDispRef = database.getReference("usuarios").child(uidUser).child("rele4")
 
             val childUpdates = HashMap<String, Any>()
-            childUpdates["tiempo"] = tiempo.toInt()
+            childUpdates["tiempoRiego"] = tiempo.toInt()
             myDispRef.updateChildren(childUpdates)
         }
     }

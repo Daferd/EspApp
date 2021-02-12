@@ -259,7 +259,6 @@ class HomeFragment : Fragment() {
 
             myDispRef.child("activar").setValue(false)
 
-
         }
     }
 
@@ -304,8 +303,10 @@ class HomeFragment : Fragment() {
                     //val sensorServer = dataSnapshot.getValue(SensorServer::class.java)
                     val hum = dataSnapshot.child("Humedad").value
                     val temp = dataSnapshot.child("Temperatura").value
-                    binding.humidityTextView.text = hum.toString() + "%"
-                    binding.temperatureTextView.text = temp.toString() + "°"
+                    val humS = dataSnapshot.child("HumedadTierra").value
+                    binding.temperatureTextView.text = "$temp°"
+                    binding.humidityTextView.text = "$hum%"
+                    binding.humiditySueloTextView.text = "$humS%"
                     //binding.humidityTextView.text = getString(R.string.humidity_format, hum)
                 }
 
