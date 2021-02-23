@@ -12,6 +12,10 @@
         <activity
             android:name=".BottomActivity"
             android:theme="@style/SplashTheme">
+
+        </activity>
+        <activity android:name=".ui.register.RegisterActivity" />
+        <activity android:name=".ui.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,8 +23,6 @@
             </intent-filter>
 
         </activity>
-        <activity android:name=".ui.register.RegisterActivity" />
-        <activity android:name=".ui.login.LoginActivity"></activity>
         <activity android:name=".ui.MainActivity"></activity>
     </application>
 

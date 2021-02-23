@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.daferarevalo.espapp.BottomActivity
 import com.daferarevalo.espapp.databinding.ActivityLoginBinding
 import com.daferarevalo.espapp.ui.MainActivity
 import com.daferarevalo.espapp.ui.register.RegisterActivity
@@ -22,6 +23,11 @@ class LoginActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
 
+        val auth = FirebaseAuth.getInstance()
+        if (auth.uid != null) {
+            goToBottomActividy()
+        }
+
         binding.loginButton.setOnClickListener {
             val email = binding.emailEditText.text.toString()
             val password = binding.passwordEditText.text.toString()
@@ -37,14 +43,20 @@ class LoginActivity : AppCompatActivity() {
         auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
-                        goToMainActivity()
+                        goToBottomActividy()
                     } else {
                         Toast.makeText(
-                                baseContext, "Authentication failed.",
-                                Toast.LENGTH_SHORT
+                            baseContext, "Authentication failed.",
+                            Toast.LENGTH_SHORT
                         ).show()
                     }
                 }
+    }
+
+    private fun goToBottomActividy() {
+        val intent = Intent(this, BottomActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
     private fun goToMainActivity() {

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.daferarevalo.espapp.R
 import com.daferarevalo.espapp.databinding.FragmentSettingsBinding
@@ -100,16 +101,19 @@ class SettingsFragment : Fragment() {
         binding.repeticionesRiegoEditText.setOnClickListener {
             val repeticiones = binding.repeticionesRiegoEditText.text.toString()
             repeticionesRiegoFirebase(repeticiones)
+            Toast.makeText(context, "Guardado", Toast.LENGTH_SHORT).show()
         }
 
         binding.tiempoRiegoEditText.setOnClickListener {
             val tiempo = binding.tiempoRiegoEditText.text.toString()
             tiempoRiegoFirebase(tiempo)
+            Toast.makeText(context, "Guardado", Toast.LENGTH_SHORT).show()
         }
 
         binding.tiempoEsperaTextView.setOnClickListener {
             val tiempo = binding.tiempoEsperaTextView.text.toString()
             tiempoEsperaFirebase(tiempo)
+            Toast.makeText(context, "Guardado", Toast.LENGTH_SHORT).show()
         }
 
         binding.riegoSwitch.setOnClickListener {

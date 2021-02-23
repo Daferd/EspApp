@@ -286,17 +286,6 @@
                     tools:ignore="UseSwitchCompatOrMaterialXml" />
 
                 <TextView
-                    android:id="@+id/textView11"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="28dp"
-                    android:text="-"
-                    android:textSize="18sp"
-                    app:layout_constraintStart_toEndOf="@+id/textInputLayout9"
-                    app:layout_constraintTop_toBottomOf="@+id/monday_check_box" />
-
-                <TextView
                     android:id="@+id/textView10"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -363,8 +352,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="24dp"
-                    android:text="s"
+                    android:layout_marginTop="48dp"
+                    android:text="m"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     app:layout_constraintStart_toEndOf="@+id/textInputLayout11"
@@ -375,23 +364,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="24dp"
-                    android:text="s"
+                    android:layout_marginTop="40dp"
+                    android:text="m"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     app:layout_constraintStart_toEndOf="@+id/textInputLayout10"
                     app:layout_constraintTop_toTopOf="@+id/textInputLayout10" />
-
-                <TextView
-                    android:id="@+id/textView13"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginTop="32dp"
-                    android:text="-"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toEndOf="@+id/textInputLayout10"
-                    app:layout_constraintTop_toBottomOf="@+id/textInputLayout9" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/textInputLayout11"

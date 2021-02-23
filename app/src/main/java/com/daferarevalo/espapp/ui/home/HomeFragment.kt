@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.daferarevalo.espapp.R
@@ -89,7 +90,7 @@ class HomeFragment : Fragment() {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-
+                    Toast.makeText(context, "Error en la conección", Toast.LENGTH_SHORT).show()
                 }
 
             }
@@ -307,6 +308,12 @@ class HomeFragment : Fragment() {
                     binding.temperatureTextView.text = "$temp°"
                     binding.humidityTextView.text = "$hum%"
                     binding.humiditySueloTextView.text = "$humS%"
+                    val ilumin = dataSnapshot.child("fotoCelda").value
+                    if (ilumin == true)
+                        binding.iluminacionTextView.text = "Baja iluminación"
+                    else
+                        binding.iluminacionTextView.text = "Buena iluminación"
+
                     //binding.humidityTextView.text = getString(R.string.humidity_format, hum)
                 }
 
