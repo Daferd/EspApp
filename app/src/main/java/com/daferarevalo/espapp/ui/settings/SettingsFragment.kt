@@ -13,6 +13,7 @@ import com.daferarevalo.espapp.server.RiegoServer
 import com.daferarevalo.espapp.server.Temporizador1Server
 import com.daferarevalo.espapp.server.Temporizador2Server
 import com.daferarevalo.espapp.server.Temporizador3Server
+import com.daferarevalo.espapp.ui.datePicker.DatePickerFragment
 import com.daferarevalo.espapp.ui.timePicker.TimePickerFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -203,6 +204,85 @@ class SettingsFragment : Fragment() {
                 diasRiegoFirebase(dia, activar)
             }
         }
+
+        binding.horaEditText.setOnClickListener {
+            showTimePickerDialogHora()
+        }
+
+        binding.fechaEditText.setOnClickListener {
+            showDatePickerDialog()
+        }
+        binding.horafechaButton.setOnClickListener {
+            bandActualizarFechaFirebase()
+        }
+    }
+
+    private fun bandActualizarFechaFirebase() {
+        val user = FirebaseAuth.getInstance().currentUser
+        user?.let {
+            val uidUser = user.uid
+            val database = FirebaseDatabase.getInstance()
+            val myDispRef = database.getReference("usuarios").child(uidUser).child("reloj")
+
+            val childUpdates = HashMap<String, Any>()
+            childUpdates["actualizar"] = true
+            myDispRef.updateChildren(childUpdates)
+            Toast.makeText(context, "Hora y Fecha actualizada", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun showDatePickerDialog() {
+        val datePicker = DatePickerFragment { day, month, year -> onDateSelected(day, month, year) }
+        fragmentManager?.let { datePicker.show(it, "date") }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun onDateSelected(day: Int, month: Int, year: Int) {
+        binding.fechaEditText.setText("$day/$month/$year")
+        fechaConfigFirebase(day, month, year)
+    }
+
+    private fun fechaConfigFirebase(day: Int, month: Int, year: Int) {
+        val user = FirebaseAuth.getInstance().currentUser
+        user?.let {
+            val uidUser = user.uid
+            val database = FirebaseDatabase.getInstance()
+            val myDispRef = database.getReference("usuarios").child(uidUser).child("reloj")
+
+            val childUpdates = HashMap<String, Any>()
+            childUpdates["dia"] = day
+            childUpdates["mes"] = month
+            childUpdates["anio"] = year
+
+            myDispRef.updateChildren(childUpdates)
+        }
+    }
+
+    private fun showTimePickerDialogHora() {
+        val timePicker = TimePickerFragment { hour, minute -> onTimeSelectedHora(hour, minute) }
+        fragmentManager?.let { timePicker.show(it, "time") }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun onTimeSelectedHora(hour: Int, minute: Int) {
+        binding.horaEditText.setText("$hour:$minute")
+        horaConfigFirebase(hour, minute)
+    }
+
+    private fun horaConfigFirebase(hour: Int, minute: Int) {
+        val user = FirebaseAuth.getInstance().currentUser
+        user?.let {
+            val uidUser = user.uid
+            val database = FirebaseDatabase.getInstance()
+            val myDispRef = database.getReference("usuarios").child(uidUser).child("reloj")
+
+            val childUpdates = HashMap<String, Any>()
+            childUpdates["hora"] = hour
+            childUpdates["minuto"] = minute
+
+            myDispRef.updateChildren(childUpdates)
+        }
+
     }
 
     private fun diasRiegoFirebase(dia: Int, activar: Boolean) {
