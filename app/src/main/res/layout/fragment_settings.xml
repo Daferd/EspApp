@@ -52,7 +52,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
-                    android:text="Temporizador 1"
+                    android:text="Luces"
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -524,6 +524,8 @@
                         android:focusable="false"
                         android:hint="Hora" />
                 </com.google.android.material.textfield.TextInputLayout>
+
+
 
                 <Button
                     android:id="@+id/horafecha_button"

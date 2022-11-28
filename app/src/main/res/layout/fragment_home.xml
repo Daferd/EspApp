@@ -21,7 +21,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:backgroundTint="@color/primary_color"
-            android:text="Rele 1"
+            android:text="Canal 1"
             app:icon="@drawable/ic_power"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView3" />
@@ -33,7 +33,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:backgroundTint="@color/primary_color"
-            android:text="Rele 2"
+            android:text="Canal 3"
             app:icon="@drawable/ic_power"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/rele1_button" />
@@ -45,7 +45,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:backgroundTint="@color/primary_color"
-            android:text="Riego"
+            android:text="Canal 4"
             app:icon="@drawable/ic_power"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/rele3_button" />
@@ -57,10 +57,19 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:backgroundTint="@color/primary_color"
-            android:text="Rele 3"
+            android:text="Canal 2"
             app:icon="@drawable/ic_power"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteY="8dp" />
 
         <TextView
             android:id="@+id/textView3"

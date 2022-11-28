@@ -8,9 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import com.daferarevalo.espapp.R
+import com.daferarevalo.espapp.core.Result
+import com.daferarevalo.espapp.data.remote.home.HomeDataSource
 import com.daferarevalo.espapp.databinding.FragmentHomeBinding
+import com.daferarevalo.espapp.domain.home.HomeRepoImpl
+import com.daferarevalo.espapp.presentation.home.HomeViewModel
+import com.daferarevalo.espapp.presentation.home.HomeViewModelFactory
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -20,6 +27,12 @@ import com.google.firebase.database.ValueEventListener
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
+    private val viewModel by viewModels<HomeViewModel> {
+        HomeViewModelFactory(HomeRepoImpl(
+        HomeDataSource()
+    ))
+    }
+
     private var estadoRele1 = false
     private var estadoRele2 = false
     private var estadoRele3 = false
@@ -39,14 +52,29 @@ class HomeFragment : Fragment() {
         binding = FragmentHomeBinding.bind(view)
 
         showHumidity()
-        verificarEstadoRele1()
+        /*verificarEstadoRele1()
         verificarEstadoRele2()
         verificarEstadoRele3()
-        verificarEstadoRiego()
+        verificarEstadoRiego()*/
+
+
 
         binding.rele1Button.setOnClickListener {
-            encenderApagarRele1(estadoRele1)
-            desactivarT1Firebase()
+            /*encenderApagarRele1(estadoRele1)
+            desactivarT1Firebase()*/
+            viewModel.addChannelModel(1).observe(viewLifecycleOwner, Observer { result->
+                when(result){
+                    is Result.Loading -> {
+
+                    }
+                    is Result.Success -> {
+                        Toast.makeText(context,"Canal agregado",Toast.LENGTH_SHORT).show()
+                    }
+                    is Result.Failure ->{
+
+                    }
+                }
+            })
         }
 
         binding.rele2Button.setOnClickListener {

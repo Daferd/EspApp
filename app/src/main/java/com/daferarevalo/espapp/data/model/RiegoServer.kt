@@ -1,4 +1,4 @@
-package com.daferarevalo.espapp.server
+package com.daferarevalo.espapp.data.model
 
 data class RiegoServer(
     val activar: Boolean = false,

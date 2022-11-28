@@ -1,4 +1,4 @@
-package com.daferarevalo.espapp.server
+package com.daferarevalo.espapp.data.model
 
 data class SensorServer(
         val humidity: Float = 0.0f,

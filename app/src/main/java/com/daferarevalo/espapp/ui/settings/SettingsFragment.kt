@@ -8,11 +8,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.daferarevalo.espapp.R
+import com.daferarevalo.espapp.data.model.*
 import com.daferarevalo.espapp.databinding.FragmentSettingsBinding
-import com.daferarevalo.espapp.server.RiegoServer
-import com.daferarevalo.espapp.server.Temporizador1Server
-import com.daferarevalo.espapp.server.Temporizador2Server
-import com.daferarevalo.espapp.server.Temporizador3Server
 import com.daferarevalo.espapp.ui.datePicker.DatePickerFragment
 import com.daferarevalo.espapp.ui.timePicker.TimePickerFragment
 import com.google.firebase.auth.FirebaseAuth
@@ -238,8 +235,9 @@ class SettingsFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun onDateSelected(day: Int, month: Int, year: Int) {
-        binding.fechaEditText.setText("$day/$month/$year")
-        fechaConfigFirebase(day, month, year)
+        val mes = month + 1
+        binding.fechaEditText.setText("$day/$mes/$year")
+        fechaConfigFirebase(day, mes, year)
     }
 
     private fun fechaConfigFirebase(day: Int, month: Int, year: Int) {
@@ -576,7 +574,7 @@ class SettingsFragment : Fragment() {
                 @SuppressLint("SetTextI18n")
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     // Get Post object and use the values to update the UI
-                    val temporizador1 = dataSnapshot.getValue(Temporizador1Server::class.java)
+                    val temporizador1 = dataSnapshot.getValue(ChannelServer::class.java)
                     binding.t1Switch.isChecked = temporizador1?.activar == true
                     binding.encendidoT1EditText.setText(temporizador1?.h_on_rele1?.toString() + ":" + temporizador1?.m_on_rele1?.toString())
                     binding.apagadoT1EditText.setText(temporizador1?.h_off_rele1?.toString() + ":" + temporizador1?.m_off_rele1?.toString())

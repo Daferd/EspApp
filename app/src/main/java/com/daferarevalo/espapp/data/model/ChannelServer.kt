@@ -1,6 +1,6 @@
-package com.daferarevalo.espapp.server
+package com.daferarevalo.espapp.data.model
 
-data class Temporizador1Server(
+data class ChannelServer(
         val activar: Boolean = false,
         val estado: Boolean = false,
         val h_off_rele1: Int = 0,

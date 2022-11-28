@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.daferarevalo.espapp.R
 import com.daferarevalo.espapp.databinding.FragmentTemperatureBinding
-import com.daferarevalo.espapp.server.Datos
+import com.daferarevalo.espapp.data.model.Datos
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
