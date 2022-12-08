@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import kotlinx.coroutines.tasks.await
 import com.google.firebase.database.ValueEventListener as ValueEventListener2
 
 class SettingsFragment : Fragment() {
@@ -209,9 +210,9 @@ class SettingsFragment : Fragment() {
         binding.fechaEditText.setOnClickListener {
             showDatePickerDialog()
         }
-        binding.horafechaButton.setOnClickListener {
+        /*binding.horafechaButton.setOnClickListener {
             bandActualizarFechaFirebase()
-        }
+        }*/
     }
 
     private fun bandActualizarFechaFirebase() {
@@ -291,53 +292,46 @@ class SettingsFragment : Fragment() {
 
             when (dia) {
                 0 -> {
-                    val myDispRef = database.getReference("usuarios").child(uidUser)
-                        .child("rele4")
+                    val myDispRef = database.getReference("users").child(uidUser).child("channels/channel4")
                     val childUpdates = HashMap<String, Any>()
                     childUpdates["sun"] = activar
                     myDispRef.updateChildren(childUpdates)
                 }
 
                 1 -> {
-                    val myDispRef = database.getReference("usuarios").child(uidUser)
-                        .child("rele4")
+                    val myDispRef = database.getReference("users").child(uidUser).child("channels/channel4")
                     val childUpdates = HashMap<String, Any>()
                     childUpdates["mon"] = activar
                     myDispRef.updateChildren(childUpdates)
                 }
 
                 2 -> {
-                    val myDispRef = database.getReference("usuarios").child(uidUser)
-                        .child("rele4")
+                    val myDispRef = database.getReference("users").child(uidUser).child("channels/channel4")
                     val childUpdates = HashMap<String, Any>()
                     childUpdates["tues"] = activar
                     myDispRef.updateChildren(childUpdates)
                 }
                 3 -> {
-                    val myDispRef = database.getReference("usuarios").child(uidUser)
-                        .child("rele4")
+                    val myDispRef = database.getReference("users").child(uidUser).child("channels/channel4")
                     val childUpdates = HashMap<String, Any>()
                     childUpdates["wed"] = activar
                     myDispRef.updateChildren(childUpdates)
                 }
                 4 -> {
-                    val myDispRef = database.getReference("usuarios").child(uidUser)
-                        .child("rele4")
+                    val myDispRef = database.getReference("users").child(uidUser).child("channels/channel4")
                     val childUpdates = HashMap<String, Any>()
                     childUpdates["thurs"] = activar
                     myDispRef.updateChildren(childUpdates)
                 }
                 5 -> {
-                    val myDispRef = database.getReference("usuarios").child(uidUser)
-                        .child("rele4")
+                    val myDispRef = database.getReference("users").child(uidUser).child("channels/channel4")
                     val childUpdates = HashMap<String, Any>()
                     childUpdates["fri"] = activar
                     myDispRef.updateChildren(childUpdates)
                 }
                 else -> {
 
-                    val myDispRef = database.getReference("usuarios").child(uidUser)
-                        .child("rele4")
+                    val myDispRef = database.getReference("users").child(uidUser).child("channels/channel4")
                     val childUpdates = HashMap<String, Any>()
                     childUpdates["sat"] = activar
                     myDispRef.updateChildren(childUpdates)
@@ -353,7 +347,7 @@ class SettingsFragment : Fragment() {
         user?.let {
             val uidUser = user.uid
             val database = FirebaseDatabase.getInstance()
-            val myDispRef = database.getReference("usuarios").child(uidUser).child("rele4")
+            val myDispRef = database.getReference("users").child(uidUser).child("channels/channel4")
 
             val childUpdates = HashMap<String, Any>()
             childUpdates["tiempoEspera"] = tiempo.toInt()
@@ -367,13 +361,13 @@ class SettingsFragment : Fragment() {
             val uidUser = user.uid
             val database = FirebaseDatabase.getInstance()
 
-            val myDispRef = database.getReference("usuarios").child(uidUser).child("rele4")
+            val myDispRef = database.getReference("users").child(uidUser).child("channels/channel4")
 
             val postListener = object : ValueEventListener2 {
                 @SuppressLint("SetTextI18n")
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     // Get Post object and use the values to update the UI
-                    val riego = dataSnapshot.getValue(RiegoServer::class.java)
+                    val riego = dataSnapshot.getValue(IrrigationServer::class.java)
                     binding.riegoSwitch.isChecked = riego?.activar == true
                     binding.encendidoRiegoEditText.setText(riego?.h_on_rele4?.toString() + ":" + riego?.m_on_rele4?.toString())
                     binding.repeticionesRiegoEditText.setText(riego?.repeticiones.toString())
@@ -404,7 +398,7 @@ class SettingsFragment : Fragment() {
         user?.let {
             val uidUser = user.uid
             val database = FirebaseDatabase.getInstance()
-            val myDispRef = database.getReference("usuarios").child(uidUser).child("rele4")
+            val myDispRef = database.getReference("users").child(uidUser).child("channels/channel4")
 
             if (activar) {
                 myDispRef.child("activar").setValue(true)
@@ -419,7 +413,7 @@ class SettingsFragment : Fragment() {
         user?.let {
             val uidUser = user.uid
             val database = FirebaseDatabase.getInstance()
-            val myDispRef = database.getReference("usuarios").child(uidUser).child("rele4")
+            val myDispRef = database.getReference("users").child(uidUser).child("channels/channel4")
 
             val childUpdates = HashMap<String, Any>()
             childUpdates["tiempoRiego"] = tiempo.toInt()
@@ -432,7 +426,7 @@ class SettingsFragment : Fragment() {
         user?.let {
             val uidUser = user.uid
             val database = FirebaseDatabase.getInstance()
-            val myDispRef = database.getReference("usuarios").child(uidUser).child("rele4")
+            val myDispRef = database.getReference("users").child(uidUser).child("channels/channel4")
 
             val childUpdates = HashMap<String, Any>()
             childUpdates["repeticiones"] = repeticiones.toInt()
@@ -456,7 +450,7 @@ class SettingsFragment : Fragment() {
         user?.let {
             val uidUser = user.uid
             val database = FirebaseDatabase.getInstance()
-            val myDispRef = database.getReference("usuarios").child(uidUser).child("rele4")
+            val myDispRef = database.getReference("users").child(uidUser).child("channels/channel4")
 
             val childUpdates = HashMap<String, Any>()
             childUpdates["h_on_rele4"] = hour
@@ -471,7 +465,7 @@ class SettingsFragment : Fragment() {
         user?.let {
             val uidUser = user.uid
             val database = FirebaseDatabase.getInstance()
-            val myDispRef = database.getReference("usuarios").child(uidUser).child("rele3")
+            val myDispRef = database.getReference("users").child(uidUser).child("channels/channel3")
 
             if (activar) {
                 myDispRef.child("activar").setValue(true)
@@ -487,7 +481,7 @@ class SettingsFragment : Fragment() {
             val uidUser = user.uid
             val database = FirebaseDatabase.getInstance()
 
-            val myDispRef = database.getReference("usuarios").child(uidUser).child("rele3")
+            val myDispRef = database.getReference("users").child(uidUser).child("channels/channel3")
 
             val postListener = object : ValueEventListener2 {
                 @SuppressLint("SetTextI18n")
@@ -526,7 +520,7 @@ class SettingsFragment : Fragment() {
         user?.let {
             val uidUser = user.uid
             val database = FirebaseDatabase.getInstance()
-            val myDispRef = database.getReference("usuarios").child(uidUser).child("rele3")
+            val myDispRef = database.getReference("users").child(uidUser).child("channels/channel3")
 
             val childUpdates = HashMap<String, Any>()
             childUpdates["h_off_rele3"] = hour
@@ -552,7 +546,7 @@ class SettingsFragment : Fragment() {
         user?.let {
             val uidUser = user.uid
             val database = FirebaseDatabase.getInstance()
-            val myDispRef = database.getReference("usuarios").child(uidUser).child("rele3")
+            val myDispRef = database.getReference("users").child(uidUser).child("channels/channel3")
 
             val childUpdates = HashMap<String, Any>()
             childUpdates["h_on_rele3"] = hour
@@ -568,7 +562,7 @@ class SettingsFragment : Fragment() {
             val uidUser = user.uid
             val database = FirebaseDatabase.getInstance()
 
-            val myDispRef = database.getReference("usuarios").child(uidUser).child("rele1")
+            val myDispRef = database.getReference("users").child(uidUser).child("channels/channel1")
 
             val postListener = object : ValueEventListener2 {
                 @SuppressLint("SetTextI18n")
@@ -597,7 +591,7 @@ class SettingsFragment : Fragment() {
             val uidUser = user.uid
             val database = FirebaseDatabase.getInstance()
 
-            val myDispRef = database.getReference("usuarios").child(uidUser).child("rele2")
+            val myDispRef = database.getReference("users").child(uidUser).child("channels/channel2")
 
             val postListener = object : ValueEventListener2 {
                 @SuppressLint("SetTextI18n")
@@ -625,7 +619,7 @@ class SettingsFragment : Fragment() {
         user?.let {
             val uidUser = user.uid
             val database = FirebaseDatabase.getInstance()
-            val myDispRef = database.getReference("usuarios").child(uidUser).child("rele2")
+            val myDispRef = database.getReference("users").child(uidUser).child("channels/channel2")
 
             if (activar) {
                 myDispRef.child("activar").setValue(true)
@@ -640,7 +634,7 @@ class SettingsFragment : Fragment() {
         user?.let {
             val uidUser = user.uid
             val database = FirebaseDatabase.getInstance()
-            val myDispRef = database.getReference("usuarios").child(uidUser).child("rele1")
+            val myDispRef = database.getReference("users").child(uidUser).child("channels/channel1")
 
             if (activar) {
                 myDispRef.child("activar").setValue(true)
@@ -667,7 +661,7 @@ class SettingsFragment : Fragment() {
         user?.let {
             val uidUser = user.uid
             val database = FirebaseDatabase.getInstance()
-            val myDispRef = database.getReference("usuarios").child(uidUser).child("rele2")
+            val myDispRef = database.getReference("users").child(uidUser).child("channels/channel2")
 
             val childUpdates = HashMap<String, Any>()
             childUpdates["h_off_rele2"] = hour
@@ -693,7 +687,7 @@ class SettingsFragment : Fragment() {
         user?.let {
             val uidUser = user.uid
             val database = FirebaseDatabase.getInstance()
-            val myDispRef = database.getReference("usuarios").child(uidUser).child("rele2")
+            val myDispRef = database.getReference("users").child(uidUser).child("channels/channel2")
 
             val childUpdates = HashMap<String, Any>()
             childUpdates["h_on_rele2"] = hour
@@ -719,7 +713,7 @@ class SettingsFragment : Fragment() {
         user?.let {
             val uidUser = user.uid
             val database = FirebaseDatabase.getInstance()
-            val myDispRef = database.getReference("usuarios").child(uidUser).child("rele1")
+            val myDispRef = database.getReference("users").child(uidUser).child("channels/channel1")
 
             val childUpdates = HashMap<String, Any>()
             childUpdates["h_off_rele1"] = hour
@@ -745,7 +739,7 @@ class SettingsFragment : Fragment() {
         user?.let {
             val uidUser = user.uid
             val database = FirebaseDatabase.getInstance()
-            val myDispRef = database.getReference("usuarios").child(uidUser).child("rele1")
+            val myDispRef = database.getReference("users").child(uidUser).child("channels/channel1")
 
             val childUpdates = HashMap<String, Any>()
             childUpdates["h_on_rele1"] = hour

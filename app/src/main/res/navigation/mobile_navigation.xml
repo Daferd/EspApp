@@ -13,14 +13,15 @@
         <action
             android:id="@+id/action_navigation_home_to_temperatureFragment2"
             app:destination="@id/temperatureFragment" />
+        <action
+            android:id="@+id/action_navigation_home_to_channelsFragment"
+            app:destination="@id/channelsFragment" />
     </fragment>
-
     <fragment
         android:id="@+id/navigation_settings"
         android:name="com.daferarevalo.espapp.ui.settings.SettingsFragment"
         android:label="@string/settings"
         tools:layout="@layout/fragment_settings" />
-
     <fragment
         android:id="@+id/navigation_profile"
         android:name="com.daferarevalo.espapp.ui.profile.ProfileFragment"
@@ -31,5 +32,25 @@
         android:name="com.daferarevalo.espapp.ui.TemperatureFragment"
         android:label="fragment_temperature"
         tools:layout="@layout/fragment_temperature" />
+    <fragment
+        android:id="@+id/channelsFragment"
+        android:name="com.daferarevalo.espapp.ui.channels.ChannelsFragment"
+        android:label="fragment_channels"
+        tools:layout="@layout/fragment_channels" >
+
+        <action
+            android:id="@+id/action_channelsFragment_to_editChannelFragment"
+            app:destination="@id/editChannelFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/editChannelFragment"
+        android:name="com.daferarevalo.espapp.ui.channels.EditChannelFragment"
+        android:label="fragment_edit_channel"
+        tools:layout="@layout/fragment_edit_channel" >
+
+        <argument
+            android:name="channelPin"
+            app:argType="integer" />
+    </dialog>
 
 </navigation>

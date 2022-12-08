@@ -1,6 +1,6 @@
 package com.daferarevalo.espapp.data.model
 
-data class RiegoServer(
+data class IrrigationServer(
     val activar: Boolean = false,
     val estado: Boolean = false,
     val h_on_rele4: Int = 0,

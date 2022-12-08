@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.daferarevalo.espapp.databinding.ActivityRegisterBinding
-import com.daferarevalo.espapp.data.model.UsuarioServer
+import com.daferarevalo.espapp.data.model.UserServer
 import com.daferarevalo.espapp.ui.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
@@ -58,7 +58,7 @@ class RegisterActivity : AppCompatActivity() {
         val database = FirebaseDatabase.getInstance()
         val myUserRef = database.getReference("usuarios")
 
-        val usuario = UsuarioServer(uid, name, email)
+        val usuario = UserServer(uid, name, email)
         uid?.let {
             myUserRef.child(uid).setValue(usuario)
         }

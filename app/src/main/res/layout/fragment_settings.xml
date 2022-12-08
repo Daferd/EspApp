@@ -32,7 +32,7 @@
                     android:layout_marginBottom="8dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView4"
+                    app:layout_constraintTop_toBottomOf="@+id/titleTextView"
                     tools:ignore="UseSwitchCompatOrMaterialXml" />
 
                 <TextView
@@ -44,10 +44,10 @@
                     android:text="-"
                     android:textSize="18sp"
                     app:layout_constraintStart_toEndOf="@+id/textInputLayout"
-                    app:layout_constraintTop_toBottomOf="@+id/textView4" />
+                    app:layout_constraintTop_toBottomOf="@+id/titleTextView" />
 
                 <TextView
-                    android:id="@+id/textView4"
+                    android:id="@+id/titleTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -64,7 +64,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     app:layout_constraintStart_toEndOf="@+id/textView5"
-                    app:layout_constraintTop_toBottomOf="@+id/textView4">
+                    app:layout_constraintTop_toBottomOf="@+id/titleTextView">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/apagadoT1_edit_text"
@@ -82,7 +82,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView4">
+                    app:layout_constraintTop_toBottomOf="@+id/titleTextView">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/encendidoT1_edit_text"
