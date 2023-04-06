@@ -26,6 +26,24 @@ class HomeViewModel(private val repo: HomeRepo):ViewModel() {
             emit(Result.Failure(e))
         }
     }
+
+    fun checkNumberChannelsModel()= liveData(viewModelScope.coroutineContext + Dispatchers.Main){
+        emit(Result.Loading())
+        try {
+            emit(Result.Success(repo.checkNumberChannels()))
+        }catch (e: Exception){
+            emit(Result.Failure(e))
+        }
+    }
+
+    fun turnChannelModel(channelPin:Int,stateChannel:Boolean)= liveData(viewModelScope.coroutineContext + Dispatchers.Main){
+        emit(Result.Loading())
+        try {
+            emit(Result.Success(repo.turnChannel(channelPin,stateChannel)))
+        }catch (e: Exception){
+            emit(Result.Failure(e))
+        }
+    }
 }
 
 class HomeViewModelFactory(private val repo: HomeRepo): ViewModelProvider.Factory{

@@ -58,11 +58,11 @@ class HomeFragment : Fragment() {
         verificarEstadoReleAux(2)
         verificarEstadoReleAux(3)*/
 
-        /*
+
         verificarEstadoRele1()
         verificarEstadoRele2()
         verificarEstadoRele3()
-        */
+
 
         /*
         binding.addButton.setOnClickListener {
@@ -82,13 +82,14 @@ class HomeFragment : Fragment() {
                     }
                 }
             })
-        }
+        }*/
 
         binding.rele1Button.setOnClickListener {
             //verificarEstadoRele(1)
             encenderApagarRele1(estadoRele1)
             desactivarT1Firebase()
         }
+
 
         binding.rele2Button.setOnClickListener {
             encenderApagarRele2(estadoRele2)
@@ -99,7 +100,7 @@ class HomeFragment : Fragment() {
             encenderApagarRele3(estadoRele3)
             desactivarT3Firebase()
         }
-         */
+
 
 
         binding.channelsCardView.setOnClickListener {
@@ -166,7 +167,6 @@ class HomeFragment : Fragment() {
         }
     }
 
-    /*
     private fun verificarEstadoRele3() {
         val user = FirebaseAuth.getInstance().currentUser
         user?.let {
@@ -177,7 +177,7 @@ class HomeFragment : Fragment() {
             val postListener = object : ValueEventListener {
                 @SuppressLint("ResourceAsColor")
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    estadoRele3 = snapshot.value as Boolean
+                    //estadoRele3 = snapshot.value as Boolean
                     if (estadoRele3) {
                         binding.rele3Button.setBackgroundColor(Color.GREEN)
                     } else {
@@ -193,7 +193,7 @@ class HomeFragment : Fragment() {
             myDispRef.addValueEventListener(postListener)
         }
     }
-    */
+
     private fun encenderApagarRele3(estadoRele3: Boolean) {
         val user = FirebaseAuth.getInstance().currentUser
         user?.let {
@@ -220,7 +220,7 @@ class HomeFragment : Fragment() {
             myDispRef.child("activar").setValue(false)
         }
     }
-    /*
+
     private fun verificarEstadoRele2() {
         val user = FirebaseAuth.getInstance().currentUser
         user?.let {
@@ -231,7 +231,7 @@ class HomeFragment : Fragment() {
             val postListener = object : ValueEventListener {
                 @SuppressLint("ResourceAsColor")
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    estadoRele2 = snapshot.value as Boolean
+                    //estadoRele2 = snapshot.value as Boolean
                     if (estadoRele2) {
                         binding.rele2Button.setBackgroundColor(Color.GREEN)
                     } else {
@@ -247,7 +247,7 @@ class HomeFragment : Fragment() {
             myDispRef.addValueEventListener(postListener)
         }
     }
-    */
+
     private fun encenderApagarRele2(estadoRele2: Boolean) {
         val user = FirebaseAuth.getInstance().currentUser
         user?.let {
@@ -303,7 +303,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    /*
+
     private fun verificarEstadoRele1() {
         val user = FirebaseAuth.getInstance().currentUser
         user?.let {
@@ -314,8 +314,8 @@ class HomeFragment : Fragment() {
             val postListener = object : ValueEventListener {
                 @SuppressLint("ResourceAsColor")
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    estadoRele1 = snapshot.value as Boolean
-                    if (estadoRele1 == false) {
+                    //estadoRele1 = snapshot.value as Boolean
+                    if (!estadoRele1) {
                         binding.rele1Button.setBackgroundColor(Color.RED)
                     } else {
                         binding.rele1Button.setBackgroundColor(Color.GREEN)
@@ -330,6 +330,8 @@ class HomeFragment : Fragment() {
             myDispRef.addValueEventListener(postListener)
         }
     }
+
+    /*
 
     private fun verificarEstadoReleAux(channelPin: Int){
         var estadoRele = false

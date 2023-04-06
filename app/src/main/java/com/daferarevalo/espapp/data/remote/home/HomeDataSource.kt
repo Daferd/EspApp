@@ -21,39 +21,67 @@ class HomeDataSource{
             val user = FirebaseAuth.getInstance().currentUser
 
             user?.let {
-                val db = FirebaseDatabase.getInstance()
+                var db = FirebaseDatabase.getInstance()
                     .getReference("users/${user.uid}/channels/channel${channelPin}")
                 val channel = ChannelServer(false, false, 15, 12, 0, 0)
                 db.setValue(channel).await()
-            }
 
+                db = FirebaseDatabase.getInstance()
+                    .getReference("users/${user.uid}/channels/numberChannels")
+
+                db.setValue(channelPin).await()
+            }
         }
     }
 
-    suspend fun checkChannel(channelPin: Int):Boolean{
-        var estadoRele=true
+    suspend fun checkChannel(channelPin: Int):ChannelServer{
+        var channelState=ChannelServer()
+        withContext(Dispatchers.IO){
+            val user = FirebaseAuth.getInstance().currentUser
+
+            user?.let {
+                val database = FirebaseDatabase.getInstance().reference
+                database.keepSynced(true)
+
+                val state = database.child("users/${user.uid}/channels/channel${channelPin}").get().await()
+
+                state.let { dato ->
+                    channelState = dato.getValue(ChannelServer::class.java) as ChannelServer
+                }
+            }
+        }
+        return channelState
+    }
+
+    suspend fun checkNumberChannels():Int{
+        var numberChannels:Int = 0
         withContext(Dispatchers.IO) {
             val user = FirebaseAuth.getInstance().currentUser
             user?.let {
 
-                val myDispRef = FirebaseDatabase.getInstance()
-                    .getReference("users/${user.uid}/channels/channel${channelPin}/estado")
+                val db = FirebaseDatabase.getInstance().reference
+                db.keepSynced(true)
 
-                val postListener = object : ValueEventListener {
-                    @SuppressLint("ResourceAsColor")
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        estadoRele = snapshot.value as Boolean
-                    }
+                val state = db.child("users/${user.uid}/channels/numberChannels").get().await()
 
-                    override fun onCancelled(error: DatabaseError) {
-
-                    }
-
+                state.let { dato->
+                    numberChannels = dato.value as Int
                 }
-                myDispRef.addValueEventListener(postListener)
             }
         }
-        return estadoRele
+        return numberChannels
+    }
+
+    suspend fun turnChannel(channelPin: Int, stateChannel:Boolean){
+        withContext(Dispatchers.IO) {
+            val user = FirebaseAuth.getInstance().currentUser
+
+            user?.let {
+                var db = FirebaseDatabase.getInstance()
+                    .getReference("users/${user.uid}/channels/channel${channelPin}/estado")
+                db.setValue(stateChannel).await()
+            }
+        }
     }
 
     suspend fun updateChanel(channelPin:Int):ChannelServer?{

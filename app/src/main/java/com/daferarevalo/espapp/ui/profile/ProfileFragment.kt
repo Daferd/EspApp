@@ -2,16 +2,11 @@ package com.daferarevalo.espapp.ui.profile
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.daferarevalo.espapp.R
 import com.daferarevalo.espapp.databinding.FragmentProfileBinding
-import com.daferarevalo.espapp.ui.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 
 class ProfileFragment : Fragment(R.layout.fragment_profile) {
@@ -24,15 +19,16 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         binding = FragmentProfileBinding.bind(view)
 
         binding.LogOutButton.setOnClickListener {
-            val user = FirebaseAuth.getInstance().signOut()
-            goToLoginActivity()
+            FirebaseAuth.getInstance().signOut()
+            findNavController().navigate(R.id.action_navigation_profile_to_loginFragment)
+            //goToLoginActivity()
 
         }
     }
 
     private fun goToLoginActivity() {
-        val intent = Intent(context, LoginActivity::class.java)
-        startActivity(intent)
+        //val intent = Intent(context, LoginActivity::class.java)
+        //startActivity(intent)
         //finish()
     }
 
