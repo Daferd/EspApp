@@ -1,7 +1,6 @@
 package com.daferarevalo.espapp.domain.home
 
 import com.daferarevalo.espapp.data.model.ChannelServer
-import com.daferarevalo.espapp.data.remote.home.HomeDataSource
 
 interface HomeRepo {
     suspend fun addChannel(channelPin: Int)
@@ -10,5 +9,13 @@ interface HomeRepo {
 
     suspend fun turnChannel(channelPin: Int, stateChannel:Boolean)
 
-    suspend fun updateChannel(channelPin:Int)
+    suspend fun applyChangesChannel(
+        channelPin: Int,
+        active: Boolean,
+        state: Boolean,
+        h_off: Int,
+        h_on: Int,
+        m_off: Int,
+        m_on: Int
+    )
 }

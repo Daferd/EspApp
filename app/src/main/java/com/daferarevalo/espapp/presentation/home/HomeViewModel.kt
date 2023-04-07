@@ -36,11 +36,41 @@ class HomeViewModel(private val repo: HomeRepo):ViewModel() {
         }
     }
 
-    fun turnChannelModel(channelPin:Int,stateChannel:Boolean)= liveData(viewModelScope.coroutineContext + Dispatchers.Main){
+    fun turnChannelModel(channelPin: Int, stateChannel: Boolean) =
+        liveData(viewModelScope.coroutineContext + Dispatchers.Main) {
+            emit(Result.Loading())
+            try {
+                emit(Result.Success(repo.turnChannel(channelPin, stateChannel)))
+            } catch (e: Exception) {
+                emit(Result.Failure(e))
+            }
+        }
+
+    fun applyChangesChannelModel(
+        channelPin: Int,
+        active: Boolean,
+        state: Boolean,
+        h_off: Int,
+        h_on: Int,
+        m_off: Int,
+        m_on: Int
+    ) = liveData(viewModelScope.coroutineContext + Dispatchers.Main) {
         emit(Result.Loading())
         try {
-            emit(Result.Success(repo.turnChannel(channelPin,stateChannel)))
-        }catch (e: Exception){
+            emit(
+                Result.Success(
+                    repo.applyChangesChannel(
+                        channelPin,
+                        active,
+                        state,
+                        h_off,
+                        h_on,
+                        m_off,
+                        m_on
+                    )
+                )
+            )
+        } catch (e: Exception) {
             emit(Result.Failure(e))
         }
     }

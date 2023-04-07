@@ -1,23 +1,12 @@
 package com.daferarevalo.espapp.ui.settings
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.daferarevalo.espapp.R
-import com.daferarevalo.espapp.data.model.*
 import com.daferarevalo.espapp.databinding.FragmentSettingsBinding
-import com.daferarevalo.espapp.ui.datePicker.DatePickerFragment
-import com.daferarevalo.espapp.ui.timePicker.TimePickerFragment
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import kotlinx.coroutines.tasks.await
-import com.google.firebase.database.ValueEventListener as ValueEventListener2
 
 class SettingsFragment : Fragment() {
 
@@ -31,6 +20,7 @@ class SettingsFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_settings, container, false)
     }
 
+    /*
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentSettingsBinding.bind(view)
@@ -214,7 +204,9 @@ class SettingsFragment : Fragment() {
             bandActualizarFechaFirebase()
         }*/
     }
+    */
 
+    /*
     private fun bandActualizarFechaFirebase() {
         val user = FirebaseAuth.getInstance().currentUser
         user?.let {
@@ -233,6 +225,7 @@ class SettingsFragment : Fragment() {
         val datePicker = DatePickerFragment { day, month, year -> onDateSelected(day, month, year) }
         fragmentManager?.let { datePicker.show(it, "date") }
     }
+
 
     @SuppressLint("SetTextI18n")
     private fun onDateSelected(day: Int, month: Int, year: Int) {
@@ -748,4 +741,6 @@ class SettingsFragment : Fragment() {
             myDispRef.updateChildren(childUpdates)
         }
     }
+
+     */
 }
