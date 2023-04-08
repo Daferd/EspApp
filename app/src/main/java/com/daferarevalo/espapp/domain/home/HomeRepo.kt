@@ -3,11 +3,13 @@ package com.daferarevalo.espapp.domain.home
 import com.daferarevalo.espapp.data.model.ChannelServer
 
 interface HomeRepo {
-    suspend fun addChannel(channelPin: Int)
-    suspend fun checkChannel(channelPin: Int):ChannelServer
-    suspend fun checkNumberChannels():Int
 
-    suspend fun turnChannel(channelPin: Int, stateChannel:Boolean)
+    suspend fun readSensor(sensorPin: Int): Double
+    suspend fun addChannel(channelPin: Int)
+    suspend fun checkChannel(channelPin: Int): ChannelServer
+    suspend fun checkNumberChannels(): Long
+
+    suspend fun turnChannel(channelPin: Int, stateChannel: Boolean)
 
     suspend fun applyChangesChannel(
         channelPin: Int,

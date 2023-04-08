@@ -22,7 +22,7 @@ import com.google.firebase.auth.FirebaseAuth
 class LoginFragment : Fragment(R.layout.fragment_login) {
 
     private lateinit var binding: FragmentLoginBinding
-
+    private val firebaseAuth by lazy { FirebaseAuth.getInstance() }
     private val viewModel by viewModels<AuthViewModel> {
         AuthViewModelFactory(
             AuthRepoImpl(
@@ -38,8 +38,8 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
         val user = FirebaseAuth.getInstance().currentUser
 
-        user.let {
-            //findNavController().navigate(R.id.action_loginFragment_to_navigation_home)
+        firebaseAuth.currentUser?.let {
+            findNavController().navigate(R.id.action_loginFragment_to_navigation_home)
         }
 
         binding.loginButton.setOnClickListener {
@@ -60,7 +60,6 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
 
     }
-
     private fun singIn(email: String, pass: String) {
         viewModel.singIn(email,pass).observe(viewLifecycleOwner,Observer{ result ->
             when(result){
@@ -88,7 +87,6 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             }
         })
     }
-
     private fun goToHomeFragment() {
         findNavController().navigate(R.id.action_loginFragment_to_navigation_home)
     }

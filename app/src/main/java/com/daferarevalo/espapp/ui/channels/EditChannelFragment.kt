@@ -88,6 +88,7 @@ class EditChannelFragment : DialogFragment() {
                     }
                 }
             })
+
         when (args.channelPin) {
             1 -> {
                 binding.titleTextView.text = "Canal 1"

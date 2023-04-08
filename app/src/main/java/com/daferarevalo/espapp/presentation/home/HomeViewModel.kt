@@ -9,16 +9,29 @@ import com.daferarevalo.espapp.domain.home.HomeRepo
 import kotlinx.coroutines.Dispatchers
 
 class HomeViewModel(private val repo: HomeRepo):ViewModel() {
-    fun addChannelModel(channelPin:Int)= liveData(viewModelScope.coroutineContext + Dispatchers.Main){
-        emit(Result.Loading())
-        try {
-            emit(Result.Success(repo.addChannel(channelPin)))
-        }catch (e: Exception){
-            emit(Result.Failure(e))
-        }
-    }
 
-    fun checkChannelModel(channelPin:Int)= liveData(viewModelScope.coroutineContext + Dispatchers.Main){
+    fun readSensorModel(sensorPin: Int) =
+        liveData(viewModelScope.coroutineContext + Dispatchers.Main) {
+            emit(Result.Loading())
+            try {
+                emit(Result.Success(repo.readSensor(sensorPin)))
+            } catch (e: Exception) {
+                emit(Result.Failure(e))
+            }
+        }
+
+    fun addChannelModel(channelPin: Int) =
+        liveData(viewModelScope.coroutineContext + Dispatchers.Main) {
+            emit(Result.Loading())
+            try {
+                emit(Result.Success(repo.addChannel(channelPin)))
+            } catch (e: Exception) {
+                emit(Result.Failure(e))
+            }
+        }
+
+    fun checkChannelModel(channelPin: Int) =
+        liveData(viewModelScope.coroutineContext + Dispatchers.Main) {
         emit(Result.Loading())
         try {
             emit(Result.Success(repo.checkChannel(channelPin)))

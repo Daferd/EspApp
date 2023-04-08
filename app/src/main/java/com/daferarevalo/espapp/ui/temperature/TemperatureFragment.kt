@@ -1,4 +1,4 @@
-    package com.daferarevalo.espapp.ui
+    package com.daferarevalo.espapp.ui.temperature
 
 import android.graphics.Color
 import android.os.Bundle
@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.daferarevalo.espapp.R
-import com.daferarevalo.espapp.databinding.FragmentTemperatureBinding
 import com.daferarevalo.espapp.data.model.Datos
+import com.daferarevalo.espapp.databinding.FragmentTemperatureBinding
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
@@ -41,9 +41,6 @@ import com.google.firebase.database.ValueEventListener
         super.onViewCreated(view, savedInstanceState)
 
         binding = FragmentTemperatureBinding.bind(view)
-
-        //binding.lineChart.onChartGestureListener
-        //binding.lineChart.setOnChartValueSelectedListener(this@TemperatureFragment)
 
         cargarDesdeFirebase()
 

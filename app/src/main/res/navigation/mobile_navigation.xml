@@ -11,7 +11,7 @@
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home">
         <action
-            android:id="@+id/action_navigation_home_to_temperatureFragment2"
+            android:id="@+id/action_navigation_home_to_temperatureFragment"
             app:destination="@id/temperatureFragment" />
         <action
             android:id="@+id/action_navigation_home_to_channelsFragment"
@@ -33,7 +33,7 @@
     </fragment>
     <fragment
         android:id="@+id/temperatureFragment"
-        android:name="com.daferarevalo.espapp.ui.TemperatureFragment"
+        android:name="com.daferarevalo.espapp.ui.temperature.TemperatureFragment"
         android:label="fragment_temperature"
         tools:layout="@layout/fragment_temperature" />
     <fragment

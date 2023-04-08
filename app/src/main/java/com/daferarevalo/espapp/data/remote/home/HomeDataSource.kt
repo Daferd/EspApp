@@ -10,7 +10,28 @@ import kotlinx.coroutines.withContext
 
 class HomeDataSource{
 
-    suspend fun addChannel(channelPin:Int) {
+    suspend fun readSensor(sensorPin: Int): Double {
+        var value = 0.0
+        withContext(Dispatchers.IO) {
+            val user = FirebaseAuth.getInstance().currentUser
+
+            user?.let {
+                val database = FirebaseDatabase.getInstance().reference
+                database.keepSynced(true)
+
+                val auxValue =
+                    database.child("users/${user.uid}/sensors/sensor${sensorPin}").get().await()
+
+                auxValue.let { dato ->
+                    value = dato.value as Double
+                }
+            }
+        }
+
+        return value
+    }
+
+    suspend fun addChannel(channelPin: Int) {
         withContext(Dispatchers.IO) {
             val user = FirebaseAuth.getInstance().currentUser
 
@@ -36,7 +57,8 @@ class HomeDataSource{
                 val database = FirebaseDatabase.getInstance().reference
                 database.keepSynced(true)
 
-                val state = database.child("users/${user.uid}/channels/channel${channelPin}").get().await()
+                val state =
+                    database.child("users/${user.uid}/channels/channel${channelPin}").get().await()
 
                 state.let { dato ->
                     channelState = dato.getValue(ChannelServer::class.java) as ChannelServer
@@ -45,8 +67,9 @@ class HomeDataSource{
         }
         return channelState
     }
-    suspend fun checkNumberChannels():Int{
-        var numberChannels:Int = 0
+
+    suspend fun checkNumberChannels(): Long {
+        var numberChannels: Long = 0
         withContext(Dispatchers.IO) {
             val user = FirebaseAuth.getInstance().currentUser
             user?.let {
@@ -56,8 +79,8 @@ class HomeDataSource{
 
                 val state = db.child("users/${user.uid}/channels/numberChannels").get().await()
 
-                state.let { dato->
-                    numberChannels = dato.value as Int
+                state.let { dato ->
+                    numberChannels = dato.value as Long
                 }
             }
         }
