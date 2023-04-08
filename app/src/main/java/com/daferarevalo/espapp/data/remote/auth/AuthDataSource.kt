@@ -37,12 +37,16 @@ class AuthDataSource {
                     "Aqui url de la foto",
                     nombreRed,
                     passRed,
-                    false),
+                    false
+                ),
             )
 
             val database = Firebase.database
             var myRef = database.getReference("usersUID/${password}")
             myRef.setValue(user.uid)
+
+            myRef = database.getReference("users/${user.uid}/channels/numberChannels")
+            myRef.setValue(0)
         }
 
         return authResult.user

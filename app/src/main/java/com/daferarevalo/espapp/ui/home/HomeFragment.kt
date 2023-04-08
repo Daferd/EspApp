@@ -63,6 +63,46 @@ class HomeFragment : Fragment() {
                     binding.temperatureTextView.text = result.data.toString()
                 }
                 is Result.Failure -> {
+                    binding.temperatureTextView.text = "null"
+                    Toast.makeText(
+                        context,
+                        "Error: ${result.exception}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        })
+
+        viewModel.readSensorModel(2).observe(viewLifecycleOwner, Observer { result ->
+            when (result) {
+                is Result.Loading -> {
+
+                }
+                is Result.Success -> {
+                    binding.humiditySueloTextView.text = result.data.toString()
+                }
+                is Result.Failure -> {
+                    binding.humiditySueloTextView.text = "null"
+                    Toast.makeText(
+                        context,
+                        "Error: ${result.exception}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        })
+
+        viewModel.readSensorModel(3).observe(viewLifecycleOwner, Observer { result ->
+            when (result) {
+                is Result.Loading -> {
+
+                }
+                is Result.Success -> {
+                    binding.humidityTextView.text = result.data.toString()
+                }
+
+                is Result.Failure -> {
+                    binding.humidityTextView.text = "null"
                     Toast.makeText(
                         context,
                         "Error: ${result.exception}",
